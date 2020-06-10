@@ -9,8 +9,8 @@ source:
   git_url: https://github.com/twosigma/beakerx_kernel_autotranslation.git
   git_tag: master
 source:
-  #url: https://files.pythonhosted.org/packages/source/b/beakerx/{{ name }}-{{ version }}.tar.gz
-  url: file:///home/codete/workspace/workspaceBeakerx2/beakerx_kernel_autotranslation/dist/{{ name }}-{{ version }}.tar.gz
+  url: https://files.pythonhosted.org/packages/source/b/beakerx/{{ name }}-{{ version }}.tar.gz
+  #url: file:///YOUR_LOCAL_PATH/beakerx_kernel_autotranslation/dist/{{ name }}-{{ version }}.tar.gz
 
 build:
   number: 1
