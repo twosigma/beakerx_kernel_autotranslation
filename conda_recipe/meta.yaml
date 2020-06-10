@@ -1,0 +1,30 @@
+{% set name = "beakerx_kernel_autotranslation" %}
+{% set version = "1.6.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  git_url: https://github.com/twosigma/beakerx_kernel_autotranslation.git
+  git_tag: master
+source:
+  #url: https://files.pythonhosted.org/packages/source/b/beakerx/{{ name }}-{{ version }}.tar.gz
+  url: file:///home/codete/workspace/workspaceBeakerx2/beakerx_kernel_autotranslation/dist/{{ name }}-{{ version }}.tar.gz
+
+build:
+  number: 1
+  script: pip install --no-deps .
+  entry_points:
+  - beakerx_kernel_autotranslation = beakerx_kernel_autotranslation:run
+
+requirements:
+  build:
+  - python
+  - pip
+  run:
+  - python >=3
+  - notebook >=5.7.4
+  - ipywidgets >=7.0
+  - tornado>6
+  - py4j
