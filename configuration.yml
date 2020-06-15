@@ -1,0 +1,8 @@
+name: beakerx_kernel_autotranslation
+channels:
+  - conda-forge
+dependencies:
+  - python = 3.7.5
+  - notebook>=5.7.6
+  - tornado>6
+  - py4j

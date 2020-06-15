@@ -1,0 +1,16 @@
+# IntelliJ
+.idea/
+.iml
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Gradle
+.gradle/
+gradle*
+/build/
+*/build/
+
+*.egg-info/
+
+dist/
