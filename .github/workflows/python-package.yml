@@ -1,0 +1,40 @@
+name: Conda package test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache Conda
+      uses: actions/cache@v1
+      with:
+        path: ~/.conda
+        key: ${{ runner.os }}-mconda-${{ hashFiles('**/configuration.yml') }}
+        restore-keys: |
+          ${{ runner.os }}-conda-          
+    - name: Set up Conda
+      uses: goanpeca/setup-miniconda@v1
+      with:
+        miniconda-version: "latest"
+    - name: Verify conda version
+      shell: bash -l {0}
+      run: conda --version
+    - name: Update conda package
+      shell: bash -l {0}
+      run: |
+        conda env create -n beakerx -f configuration.yml
+    - name: Build BeakerX Autotranslation
+      shell: bash -l {0}
+      run: |
+        conda activate beakerx
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_autotranslation install
+
