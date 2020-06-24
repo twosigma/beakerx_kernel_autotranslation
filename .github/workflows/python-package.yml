@@ -37,4 +37,73 @@ jobs:
         conda activate beakerx
         pip install -r requirements.txt --verbose
         beakerx_kernel_autotranslation install
-
+    - name: Checkout beakerx_kernel_base repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_base
+        path: beakerx_kernel_base
+    - name: Checkout beakerx_kernel_groovy repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_groovy
+        path: beakerx_kernel_groovy
+    - name: Checkout beakerx_kernel_java repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_java
+        path: beakerx_kernel_java
+    - name: Checkout beakerx_kernel_scala repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_scala
+        path: beakerx_kernel_scala
+    - name: Checkout beakerx_kernel_kotlin repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_kotlin
+        path: beakerx_kernel_kotlin
+    - name: Checkout beakerx_kernel_clojure repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_kernel_clojure
+        path: beakerx_kernel_clojure
+    - name: Build Groovy, Java, Scala, Kotlin, Clojure Kernels
+      shell: bash -l {0}
+      run: |
+        cd $GITHUB_WORKSPACE/beakerx_kernel_base
+        chmod +x gradlew
+        ./gradlew install
+        conda activate beakerx
+        cd $GITHUB_WORKSPACE/beakerx_kernel_groovy/groovy-dist
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_groovy install
+        cd $GITHUB_WORKSPACE/beakerx_kernel_java/java-dist
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_java install
+        cd $GITHUB_WORKSPACE/beakerx_kernel_scala/scala-dist
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_scala install
+        cd $GITHUB_WORKSPACE/beakerx_kernel_kotlin/kotlin-dist
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_kotlin install
+        cd $GITHUB_WORKSPACE/beakerx_kernel_clojure/clojure-dist
+        pip install -r requirements.txt --verbose
+        beakerx_kernel_clojure install
+    - name: Checkout beakerx_tests repo
+      uses: actions/checkout@v2
+      with:
+        repository: twosigma/beakerx_tests
+        path: beakerx_tests
+    - name: Run e2e tests (Autotranslation)
+      shell: bash -l {0}
+      run: |
+        cd $GITHUB_WORKSPACE/beakerx_tests/autotests
+        chmod +x gradlew
+        conda activate beakerx
+        python ci_tests.py --app=notebook --tst=autotranslation.* 
+    - name: Publish Test Report
+      if: ${{ always() }}
+      uses: scacap/action-surefire-report@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        report_paths: "**/test-results/test/TEST-*.xml"  
