@@ -91,8 +91,8 @@ class MainGetHandler(tornado.web.RequestHandler):
 
 def make_app():
     return tornado.web.Application([
-        (r"/autotransltion/(.*)/(.*)", MainGetHandler),
-        (r"/autotransltion/", MainSaveHandler),
+        (r"/autotranslation/(.*)/(.*)", MainGetHandler),
+        (r"/autotranslation/", MainSaveHandler),
     ])
 
 
